@@ -2,7 +2,7 @@
   Layout = "_Layout";
 }
 
-@model RecipeBox.Models.Item
+@model RecipeBox.Models.Recipe
 
 <h2>Edit</h2>
 
@@ -10,7 +10,7 @@
 
 @using (Html.BeginForm())
 {
-  @Html.HiddenFor(model => model.ItemId)
+  @Html.HiddenFor(model => model.RecipeId)
 
   @Html.LabelFor(model => model.Description)
   @Html.EditorFor(model => model.Description)
@@ -18,11 +18,11 @@
   @Html.Label("Select category")
   @Html.DropDownList("CategoryId")
 
-  @Html.Label("Change due date")
-  @Html.EditorFor(model => model.DueDate)
-  
-  @Html.Label("Mark Completed")
-  @Html.CheckBoxFor(model => model.Completed)
+  @Html.LabelFor(model => model.Ingredients)
+  @Html.TextBoxFor(model => model.Ingredients)
+
+  @Html.LabelFor(model => model.Steps)
+  @Html.TextBoxFor(model => model.Steps)
 
   <input type="submit" value="Save" />
 }

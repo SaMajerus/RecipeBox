@@ -2,7 +2,7 @@
   Layout = "_Layout";
 }
 
-@model RecipeBox.Models.Item
+@model RecipeBox.Models.Recipe
 
 <h2>Add a category</h2>
 
@@ -10,7 +10,7 @@
 
 @using (Html.BeginForm())
 {
-  @Html.HiddenFor(model => model.ItemId)
+  @Html.HiddenFor(model => model.RecipeId)
 
   @Html.Label("Select category")
   @Html.DropDownList("CategoryId")

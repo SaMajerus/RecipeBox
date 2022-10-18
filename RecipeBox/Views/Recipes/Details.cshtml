@@ -2,36 +2,29 @@
   Layout = "_Layout";
 }
 
-@model RecipeBox.Models.Item
+@model RecipeBox.Models.Recipe
 
-<h2>Item Details</h2>
+<h2>Recipe Details</h2>
 <hr />
 <h3>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</h3>
-<h3>Due date: @Html.DisplayFor(model => model.DueDate)</h3>
-@if (@Model.Completed == true)
-{
-  <p>Task Status: Completed</p>
-}
-else
-{
-  <p>Task Status: Not Completed</p>
-}
+<h3>Ingredients: @Html.DisplayFor(model => model.Ingredients)</h3>
+<h3>Steps: @Html.DisplayFor(model => model.Steps)</h3>
 
 
 @if(@Model.JoinEntities.Count == 0)
 {
-  <p>This item does not belong to any categories</p>
+  <p>This recipe does not belong to any categories</p>
 }
 else
 {
-  <h4>Categories the item belongs to:</h4>
+  <h4>Categories the recipe belongs to:</h4>
   <ul>
   @foreach(var join in Model.JoinEntities)
   {
     <li>@join.Category.Name</li>
-    @using (Html.BeginForm("DeleteCategory", "Items"))
+    @using (Html.BeginForm("DeleteCategory", "Recipes"))
     {
-      @Html.Hidden("joinId", @join.CategoryItemId)
+      @Html.Hidden("joinId", @join.CategoryRecipeId)
       <input type="submit" value="Delete"/>
     }
   }
@@ -39,6 +32,6 @@ else
 }
 
 <p>@Html.ActionLink("Back to list", "Index")</p>
-<p>@Html.ActionLink("Edit Item", "Edit", new { id = Model.ItemId })</p>
-<p>@Html.ActionLink("Delete Item", "Delete", new { id = Model.ItemId })</p>
-<p>@Html.ActionLink("Add a Category", "AddCategory", new { id = Model.ItemId })</p>
+<p>@Html.ActionLink("Edit Recipe", "Edit", new { id = Model.RecipeId })</p>
+<p>@Html.ActionLink("Delete Recipe", "Delete", new { id = Model.RecipeId })</p>
+<p>@Html.ActionLink("Add a Category", "AddCategory", new { id = Model.RecipeId })</p>

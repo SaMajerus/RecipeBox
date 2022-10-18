@@ -10,15 +10,15 @@
 
 @if(@Model.JoinEntities.Count == 0)
 {
-  <p>This category does not contain any items</p>
+  <p>This category does not contain any recipes</p>
 }
 else
 {
-  <h4>Items the category contains:</h4>
+  <h4>Recipes the category contains:</h4>
   <ul>
   @foreach(var join in Model.JoinEntities)
   {
-    <li>@join.Item.Description</li>
+    <li>@join.Recipe.Description</li>
   }
   </ul>
 }

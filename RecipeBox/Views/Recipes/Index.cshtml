@@ -3,23 +3,23 @@
 }
 
 @using RecipeBox.Models;
-@model IEnumerable<RecipeBox.Models.Item>
+@model IEnumerable<RecipeBox.Models.Recipe>
 
-<h1>Items for @User.Identity.Name</h1>
+<h1>Recipes for @User.Identity.Name</h1>
 
 @if (Model.Any())
 {
   <ul>
-    @foreach (Item item in Model)
+    @foreach (Recipe recipe in Model)
     {
-      <li>@Html.ActionLink($"{item.Description}", "Details", new { id = item.ItemId })</li>
+      <li>@Html.ActionLink($"{recipe.Description}", "Details", new { id = recipe.RecipeId })</li>
     }
   </ul>
 } 
 else
 {
-  <h3>No items have been added yet!</h3>
+  <h3>No recipes have been added yet!</h3>
 }
 
-<p>@Html.ActionLink("Add new item", "Create")</p>
+<p>@Html.ActionLink("Add new recipe", "Create")</p>
 <p>@Html.ActionLink("Home", "Index", "Home")</p>
