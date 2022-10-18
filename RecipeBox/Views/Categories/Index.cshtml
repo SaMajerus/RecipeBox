@@ -1,0 +1,18 @@
+@{
+  Layout = "_Layout";
+}
+
+@using RecipeBox.Models;
+@model List<RecipeBox.Models.Category>;
+
+<h1>Categories</h1>
+
+<ul>
+  @foreach(Category category in Model)
+  {
+    <li>@Html.ActionLink($"{category.Name}", "Details", new { id = category.CategoryId })</li>
+  }
+</ul>
+
+<p>@Html.ActionLink("Add new category", "Create")</p>
+<p>@Html.ActionLink("Home", "Index", "Home")</p>

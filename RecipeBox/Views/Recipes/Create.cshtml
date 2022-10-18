@@ -1,0 +1,21 @@
+@{
+  Layout = "_Layout";
+}
+
+@model RecipeBox.Models.Item
+
+<h4>Add a new task</h4>
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.Description)
+  @Html.TextBoxFor(model => model.Description)
+
+  @Html.Label("Select category")
+  @Html.DropDownList("CategoryId")
+
+  @Html.Label("Add due date")
+  @Html.TextBoxFor(model => model.DueDate, new { type = "date" })
+
+  <input type="submit" value="Add new item" class="btn btn-default" />
+}
+<p>@Html.ActionLink("Show all items", "Index")</p>

@@ -1,0 +1,2 @@
+controllers - home, account, category, and recipe (delete ingredients and steps)
+models - appUser, category, recipe, categoryrecipe, context, and DesignDB (delete categoryItem, item, and recipeingredient)
