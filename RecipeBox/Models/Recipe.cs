@@ -3,20 +3,19 @@ using System;
 
 namespace RecipeBox.Models
 {
-  public class Item
+  public class Recipe
   {
-    public Item()
+    public Recipe()
     {
-      this.JoinEntities = new HashSet<CategoryItem>();
+      this.JoinEntities = new HashSet<CategoryRecipe>();
     }
 
-    public int ItemId { get; set; }
+    public int RecipeId { get; set; }
     public string Description { get; set; }
-    public virtual ApplicationUser User { get; set; } //Declared as 'virtual' to allow Entity to lazy-load the property's contents. 
-    public bool Completed { get; set; }
-    public DateTime DueDate { get; set; }
+    public string Ingredients { get; set; }
+    public string Steps { get; set; }
+    public virtual ApplicationUser User { get; set; }  //Declared as 'virtual' to allow Entity to lazy-load the property's contents. 
 
-    // public readonly static IEnumerable<Item> DateOrder { get; }
-    public virtual ICollection<CategoryItem> JoinEntities { get;}
+    public virtual ICollection<CategoryRecipe> JoinEntities { get;}
   }
 }
