@@ -12,27 +12,32 @@ using System.Security.Claims;  /* "[I]mportant for using claim based authorizati
 
 namespace RecipeBox.Controllers
 {
-  [Authorize]  //This attribute "allows access to the 'RecipesController' only if a user is logged in" (Lsn 9). 
+  //[Authorize]  //This attribute "allows access to the 'RecipesController' only if a user is logged in" (Lsn 9).  
   public class RecipesController : Controller
   {
     private readonly RecipeBoxContext _db;
-    private readonly UserManager<ApplicationUser> _userManager;  //new line 
+    private readonly UserManager<ApplicationUser> _userManager; 
 
-    //updated constructor
     public RecipesController(UserManager<ApplicationUser> userManager, RecipeBoxContext db)
     {
       _userManager = userManager;
       _db = db;
     }
 
-    public async Task<ActionResult> Index()
-    {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      var userRecipes = _db.Recipes.Where(entry => entry.User.Id == currentUser.Id).ToList();
-      return View(userRecipes);
-    }
+      public ActionResult Index()
+      {
+        return View(_db.Recipes.ToList());
+      }
 
+    // public async Task<ActionResult> Index()
+    // {
+    //   var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    //   var currentUser = await _userManager.FindByIdAsync(userId);
+    //   var userRecipes = _db.Recipes.Where(entry => entry.User.Id == currentUser.Id).ToList();
+    //   return View(userRecipes);
+    // }
+
+    [Authorize] 
     public ActionResult Create()
     {
       ViewBag.CategoryId = new SelectList(_db.Categories, "CategoryId", "Name");
@@ -64,6 +69,7 @@ namespace RecipeBox.Controllers
       return View(thisRecipe);
     }
 
+    [Authorize] 
     public ActionResult Edit(int id)
     {
       Recipe thisRecipe = _db.Recipes.FirstOrDefault(recipe => recipe.RecipeId == id);
@@ -83,6 +89,7 @@ namespace RecipeBox.Controllers
       return RedirectToAction("Index");
     }
 
+    [Authorize] 
     public ActionResult AddCategory(int id)
     {
       var thisRecipe = _db.Recipes.FirstOrDefault(recipe => recipe.RecipeId == id);
@@ -101,6 +108,7 @@ namespace RecipeBox.Controllers
       return RedirectToAction("Index");
     }
 
+    [Authorize] 
     public ActionResult Delete(int id)
     {
       Recipe thisRecipe = _db.Recipes.FirstOrDefault(recipe => recipe.RecipeId == id);
@@ -116,6 +124,7 @@ namespace RecipeBox.Controllers
       return RedirectToAction("Index");
     }
 
+    [Authorize] 
     [HttpPost]
     public ActionResult DeleteCategory(int joinId)
     {
