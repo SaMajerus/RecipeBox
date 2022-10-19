@@ -29,13 +29,14 @@ namespace RecipeBox.Controllers
         return View(_db.Recipes.ToList());
       }
 
-    // public async Task<ActionResult> Index()
-    // {
-    //   var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-    //   var currentUser = await _userManager.FindByIdAsync(userId);
-    //   var userRecipes = _db.Recipes.Where(entry => entry.User.Id == currentUser.Id).ToList();
-    //   return View(userRecipes);
-    // }
+/*
+    public async Task<ActionResult> Index()
+    {
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var currentUser = await _userManager.FindByIdAsync(userId);
+      var userRecipes = _db.Recipes.Where(entry => entry.User.Id == currentUser.Id).ToList();
+      return View(userRecipes);
+    } */
 
     [Authorize] 
     public ActionResult Create()
@@ -62,7 +63,6 @@ namespace RecipeBox.Controllers
 
     public ActionResult Details(int id)
     {
-      //Need to reference Ingredients in a way that also allows us to reference Categories, and do so in the same function.
       var thisRecipe = _db.Recipes
         .Include(recipe => recipe.JoinCatRec)
         .ThenInclude(join => join.Category)
@@ -143,7 +143,6 @@ namespace RecipeBox.Controllers
       }
       return RedirectToAction("Index");
     }
-//Add 'DeleteIngredient' method
 
     [Authorize] 
     public ActionResult Delete(int id)
@@ -167,6 +166,15 @@ namespace RecipeBox.Controllers
     {
       var joinEntry = _db.CategoryRecipe.FirstOrDefault(entry => entry.CategoryRecipeId == joinId);
       _db.CategoryRecipe.Remove(joinEntry);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+    [Authorize] 
+    [HttpPost]
+    public ActionResult DeleteIngredient(int joinId)
+    {
+      var joinEntry = _db.RecipeIngredient.FirstOrDefault(entry => entry.RecipeIngredientId == joinId);
+      _db.RecipeIngredient.Remove(joinEntry);
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
