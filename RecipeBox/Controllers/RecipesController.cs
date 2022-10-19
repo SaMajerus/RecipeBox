@@ -62,9 +62,12 @@ namespace RecipeBox.Controllers
 
     public ActionResult Details(int id)
     {
+      //Need to reference Ingredients in a way that also allows us to reference Categories, and do so in the same function.
       var thisRecipe = _db.Recipes
-        .Include(recipe => recipe.JoinEntities)
+        .Include(recipe => recipe.JoinCatRec)
         .ThenInclude(join => join.Category)
+        .Include(recipe => recipe.JoinRecIng)
+        .ThenInclude(join => join.Ingredient)
         .FirstOrDefault(recipe => recipe.RecipeId == id);
       return View(thisRecipe);
     }
@@ -100,6 +103,13 @@ namespace RecipeBox.Controllers
     [HttpPost]
     public ActionResult AddCategory(Recipe recipe, int CategoryId)
     {
+      foreach(CategoryRecipe entry in _db.CategoryRecipe)  //From Joe's MachineController file from the 10/14/22 CR. -SM
+        {
+          if(recipe.RecipeId == entry.RecipeId && CategoryId == entry.CategoryId)
+          {
+            return RedirectToAction("Index");
+          }
+        }
       if (CategoryId != 0)
       {
         _db.CategoryRecipe.Add(new CategoryRecipe() { CategoryId = CategoryId, RecipeId = recipe.RecipeId });
@@ -107,6 +117,33 @@ namespace RecipeBox.Controllers
       }
       return RedirectToAction("Index");
     }
+
+    [Authorize] 
+    public ActionResult AddIngredient(int id)
+    {
+      var thisRecipe = _db.Recipes.FirstOrDefault(recipe => recipe.RecipeId == id);
+      ViewBag.IngredientId = new SelectList(_db.Ingredients, "IngredientId", "Name");
+      return View(thisRecipe);
+    }
+
+    [HttpPost]
+    public ActionResult AddIngredient(Recipe recipe, int IngredientId)
+    {
+      foreach(RecipeIngredient entry in _db.RecipeIngredient)
+        {  //Blocks the Ingredient from being added if this given element matches what the user is trying to add. (Prevents duplicate entries of an Ingredient.)
+          if((IngredientId == entry.IngredientId) && (recipe.RecipeId == entry.RecipeId))
+          {
+            return RedirectToAction("Index");
+          }
+        }
+      if (IngredientId != 0)
+      {
+        _db.RecipeIngredient.Add(new RecipeIngredient() { IngredientId = IngredientId, RecipeId = recipe.RecipeId });
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Index");
+    }
+//Add 'DeleteIngredient' method
 
     [Authorize] 
     public ActionResult Delete(int id)

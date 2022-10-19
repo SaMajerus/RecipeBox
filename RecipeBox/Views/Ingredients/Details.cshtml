@@ -1,0 +1,28 @@
+@{
+  Layout = "_Layout";
+}
+
+@model RecipeBox.Models.Ingredient;
+
+<h2>Ingredient Details</h2>
+<hr />
+<h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)</h3>
+
+@if(@Model.JoinRecIng.Count == 0)
+{
+  <p>This ingredient is not used in any recipes</p>
+}
+else
+{
+  <h4>Recipes the ingredient is in:</h4>
+  <ul>
+  @foreach(var join in Model.JoinRecIng)
+  {
+    <li>@join.Recipe.Description</li>
+  }
+  </ul>
+}
+
+<p>@Html.ActionLink("Back to Ingredients", "Index")</p>
+<p>@Html.ActionLink("Edit Ingredient", "Edit", new { id = Model.IngredientId })</p>
+<p>@Html.ActionLink("Delete Ingredient", "Delete", new { id = Model.IngredientId })</p>

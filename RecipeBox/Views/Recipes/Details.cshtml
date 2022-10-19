@@ -7,11 +7,10 @@
 <h2>Recipe Details</h2>
 <hr />
 <h3>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</h3>
-<h3>Ingredients: @Html.DisplayFor(model => model.Ingredients)</h3>
 <h3>Steps: @Html.DisplayFor(model => model.Steps)</h3>
 
 
-@if(@Model.JoinEntities.Count == 0)
+@if(@Model.JoinCatRec.Count == 0)
 {
   <p>This recipe does not belong to any categories</p>
 }
@@ -19,7 +18,9 @@ else
 {
   <h4>Categories the recipe belongs to:</h4>
   <ul>
-  @foreach(var join in Model.JoinEntities)
+
+  @* Ln 23-31:  Need to reference Ingredients in a way that also allows us to reference Categories, and do so in the same function. (In order to display associated Categories and Ingredients also.) *@
+  @foreach(var join in Model.JoinCatRec)
   {
     <li>@join.Category.Name</li>
     @using (Html.BeginForm("DeleteCategory", "Recipes"))
@@ -31,7 +32,30 @@ else
   </ul>
 }
 
+@if(@Model.JoinRecIng.Count == 0)
+{
+  <p>This recipe does not have any ingredients</p>
+}
+else
+{
+  <h4>Ingredients in the recipe:</h4>
+  <ul>
+
+  @foreach(var join in Model.JoinRecIng)
+  {
+    <li>@join.Ingredient.Name</li>
+    @using (Html.BeginForm("DeleteIngredient", "Recipes"))
+    {
+      @Html.Hidden("joinId", @join.RecipeIngredientId)
+      <input type="submit" value="Delete"/>
+    }
+  }
+  </ul>
+}
+
+
 <p>@Html.ActionLink("Back to list", "Index")</p>
 <p>@Html.ActionLink("Edit Recipe", "Edit", new { id = Model.RecipeId })</p>
 <p>@Html.ActionLink("Delete Recipe", "Delete", new { id = Model.RecipeId })</p>
 <p>@Html.ActionLink("Add a Category", "AddCategory", new { id = Model.RecipeId })</p>
+<p>@Html.ActionLink("Add an Ingredient", "AddIngredient", new { id = Model.RecipeId })</p>

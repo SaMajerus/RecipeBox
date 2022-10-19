@@ -6,11 +6,11 @@ namespace RecipeBox.Models
   {
     public Category()
     {
-      this.JoinEntities = new HashSet<CategoryRecipe>();
+      this.JoinCatRec = new HashSet<CategoryRecipe>();
     }
 
     public int CategoryId { get; set; }
     public string Name { get; set; }
-    public virtual ICollection<CategoryRecipe> JoinEntities { get; set; }
+    public virtual ICollection<CategoryRecipe> JoinCatRec { get; set; }
   }
 }

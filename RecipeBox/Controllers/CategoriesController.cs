@@ -37,7 +37,7 @@ namespace RecipeBox.Controllers
     public ActionResult Details(int id)
     {
       var thisCategory = _db.Categories
-        .Include(category => category.JoinEntities)
+        .Include(category => category.JoinCatRec)
         .ThenInclude(join => join.Recipe)
         .FirstOrDefault(category => category.CategoryId == id);
       return View(thisCategory);
