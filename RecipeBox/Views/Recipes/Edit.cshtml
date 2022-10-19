@@ -15,6 +15,9 @@
   @Html.LabelFor(model => model.Description)
   @Html.EditorFor(model => model.Description)
 
+  <p>Rate on a scale of 1-10:</p>
+  @Html.TextBoxFor(model => model.Rating)
+
   @Html.LabelFor(model => model.Steps)
   @Html.TextBoxFor(model => model.Steps)
 

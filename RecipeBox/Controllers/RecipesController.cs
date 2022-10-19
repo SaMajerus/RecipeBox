@@ -26,7 +26,7 @@ namespace RecipeBox.Controllers
 
       public ActionResult Index()
       {
-        return View(_db.Recipes.ToList());
+        return View(_db.Recipes.ToList().OrderBy(model => model.Rating).ToList());
       }
 
 /*
@@ -169,6 +169,7 @@ namespace RecipeBox.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
     [Authorize] 
     [HttpPost]
     public ActionResult DeleteIngredient(int joinId)
